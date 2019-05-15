@@ -20,7 +20,7 @@ public static class GameVersion
         {
             string _version = $"{VERSION_MAJOR}.{VERSION_MINOR}.{VERSION_PATCH}";
 #if UNITY_EDITOR || UNITY_DEVELOPMENT
-            _version += $" (Development Build)"
+            _version += $" (Development Build)";
 #endif
             return _version;
         }
