@@ -1,0 +1,5 @@
+﻿{"dialogue": "This is my first line of dialogue.","optionAResponse": 1.0,"optionBResponse": 0.0,"optionCResponse": -1.0,"isSavePoint": false, "triggersRandomEvent": false}
+{"dialogue": "This is my second line of dialogue.","optionAResponse": 1.0,"optionBResponse": 0.0,"optionCResponse": -1.0,"isSavePoint": true, "triggersRandomEvent": false}
+{"dialogue": "This is my three line of dialogue.","optionAResponse": 1.0,"optionBResponse": 0.0,"optionCResponse": -1.0,"isSavePoint": false, "triggersRandomEvent": true}
+{"dialogue": "This is my fourth line of dialogue.","optionAResponse": 1.0,"optionBResponse": 0.0,"optionCResponse": -1.0,"isSavePoint": true, "triggersRandomEvent": false}
+{"dialogue": "This is my fifth line of dialogue.","optionAResponse": 1.0,"optionBResponse": 0.0,"optionCResponse": -1.0,"isSavePoint": false, "triggersRandomEvent": false}
