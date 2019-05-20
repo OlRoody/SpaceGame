@@ -83,9 +83,4 @@ public class CharacterUIController : MonoBehaviour
         SetCharacterName();
         SetDialogueText();
     }
-
-    public void ProcessAffectionMetterChange(float value)
-    {
-        Debug.Log("The affection meter has changed to " + value);
-    }
 }

@@ -18,7 +18,7 @@ public class CharacterController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-   
+        lanes.SetDefaultResponseValues(Const.defaultAValue, Const.defaultBValue, Const.defaultCValue);
     }
     // Update is called once per frame
     void Update()

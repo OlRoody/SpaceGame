@@ -11,7 +11,5 @@ public class Dialogue : ScriptableObject
     public float optionBVal;
     public string optionCResponse;
     public float optionCVal;
-    public bool isSavePoint;
-    public bool triggersRandomEvent;
     public float scoreEarned;
 }

@@ -18,6 +18,12 @@ public class LaneList : ScriptableObject
                     dialogue.optionAVal = valA;
                     dialogue.optionBVal = valB;
                     dialogue.optionCVal = valC;
+
+                    // Testing
+                    dialogue.dialogue = lane.name + " : " + set + " : " + dialogue + " : " + Const.defaultDialogueLine;
+                    dialogue.optionAResponse = lane.name + " : " + set + " : " + dialogue + " : " + Const.defaultAResponse;
+                    dialogue.optionBResponse = lane.name + " : " + set + " : " + dialogue + " : " + Const.defaultBResponse;
+                    dialogue.optionCResponse = lane.name + " : " + set + " : " + dialogue + " : " + Const.defaultCResponse;
                 }
             }
         }
