@@ -9,14 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8d6186aa069a48f592173f4d9956dee, type: 3}
-  m_Name: Person1
+  m_Script: {fileID: 11500000, guid: 9f6fd9086d4ad4e8ca68b52ff4babf2d, type: 3}
+  m_Name: DialogueLanes
   m_EditorClassIdentifier: 
-  characterName: Person1
-  savedDialoguePosition: 0
-  currentAffectionLevel: 1
-  greeting: Hello there!
-  milestone1: 2
-  milestone2: 3
-  milestone3: 4
-  milestone4: 5
+  list:
+  - {fileID: 11400000, guid: 6fa0e8bd4c2504868819cc81b280608e, type: 2}

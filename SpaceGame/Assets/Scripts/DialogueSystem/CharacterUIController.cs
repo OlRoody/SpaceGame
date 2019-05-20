@@ -57,29 +57,24 @@ public class CharacterUIController : MonoBehaviour
         dialogueContainerText.text = characterController.currentDialogue.dialogue;
     }
 
-    public void SetDialogueTextToGreeting()
-    {
-        dialogueContainerText.text = characterController.characterInfo.greeting;
-    }
-
     public void ProcessOptionAClick()
     {
         Debug.Log("Clicked on A");
-        characterController.ProcessOption(characterController.currentDialogue.optionAResponse);
+        characterController.ProcessOption(characterController.currentDialogue.optionAVal);
         LoadCharacterUI();
     }
 
     public void ProcessOptionBClick()
     {
         Debug.Log("Clicked on B");
-        characterController.ProcessOption(characterController.currentDialogue.optionBResponse);
+        characterController.ProcessOption(characterController.currentDialogue.optionBVal);
         LoadCharacterUI();
     }
 
     public void ProcessOptionCClick()
     {
         Debug.Log("Clicked on C");
-        characterController.ProcessOption(characterController.currentDialogue.optionCResponse);
+        characterController.ProcessOption(characterController.currentDialogue.optionCVal);
         LoadCharacterUI();
     }
 

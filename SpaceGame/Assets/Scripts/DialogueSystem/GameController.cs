@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
         // Load up the characters before anything else happens
         foreach (GameObject character in characters)
         {
-            character.GetComponent<CharacterController>().LoadCharacter();
+            character.GetComponent<CharacterController>().LoadCharacterDialogue();
         }
 
         InitiateCharacter(currentCharacter.index);
@@ -32,12 +32,5 @@ public class GameController : MonoBehaviour
         characterUIController.character = characters[index];
         characterUIController.SetCharacterController();
         characterUIController.LoadCharacterUI();
-        characters[index].GetComponent<CharacterController>().CheckAffectionMilestones();
-        characters[index].GetComponent<CharacterController>().CheckForTriggers();
-    }
-
-    public void ProcessRandomEvent()
-    {
-        Debug.Log("This is a random event!");
     }
 }

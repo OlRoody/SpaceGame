@@ -1,11 +1,17 @@
 ﻿using System;
+using UnityEngine;
 
-public class Dialogue
+[CreateAssetMenu(menuName = "Dialogue/Line", order = 1)]
+public class Dialogue : ScriptableObject
 {
     public string dialogue;
-    public float optionAResponse;
-    public float optionBResponse;
-    public float optionCResponse;
+    public string optionAResponse;
+    public float optionAVal;
+    public string optionBResponse;
+    public float optionBVal;
+    public string optionCResponse;
+    public float optionCVal;
     public bool isSavePoint;
     public bool triggersRandomEvent;
+    public float scoreEarned;
 }

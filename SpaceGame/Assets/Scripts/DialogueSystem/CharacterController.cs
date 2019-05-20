@@ -5,20 +5,20 @@ using System.Collections.Generic;
 
 public class CharacterController : MonoBehaviour
 {
-    public TextAsset dialoguesJsonFile;
-    public List<Dialogue> dialogues = new List<Dialogue>();
+    public LaneList lanes;
     public CharacterInfo characterInfo;
+    [HideInInspector]
+    public Lane currentLane;
+    [HideInInspector]
+    public Set currentSet;
     [HideInInspector]
     public Dialogue currentDialogue;
     public int currentDialoguePosition;
-    public FloatGameEvent adjustAffectionLevel;
-    public GameEvent triggerRandomEvent;
-
 
     // Use this for initialization
     void Start()
     {
-
+   
     }
     // Update is called once per frame
     void Update()
@@ -26,103 +26,108 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    public void LoadDialogueObjects()
+    public void SetCurrentLane()
     {
-        string dialoguesFileText = dialoguesJsonFile.text;
-        char[] delimiters = { '\n' };
-        string[] dialoguesText = dialoguesFileText.Split(delimiters);
-        foreach (string dialogueJsonText in dialoguesText)
-        {
-            dialogues.Add(JsonUtility.FromJson<Dialogue>(dialogueJsonText));
-        }
+        currentLane = lanes.list[(int) characterInfo.currentMilestone];
     }
 
-    public void SetCurrentDialogue(int index)
+    public void SetCurrentSet()
     {
-        currentDialogue = dialogues[index];
+        currentSet = GetRandomSet();
     }
 
-    public void CheckForTriggers()
+    public void SetCurrentDialogue()
     {
-        if (currentDialogue.isSavePoint)
-        {
-            characterInfo.savedDialoguePosition = currentDialoguePosition;
-        }
-        if (currentDialogue.triggersRandomEvent)
-        {
-            triggerRandomEvent.Invoke();
-        }
+        currentDialogue = currentSet.dialogues[currentDialoguePosition];
     }
 
-    public void CheckAffectionMilestones()
+    public Set GetRandomSet()
     {
-        Debug.Log(string.Format("Current Affection Level: {0}", characterInfo.currentAffectionLevel));
+        System.Random random = new System.Random();
+        Set possibleSet = currentLane.sets[0];
+        int laneLength = currentLane.sets.Length;
+        int currentLaneSetCount = 0;
+        do
+        {
+            currentLaneSetCount++;
+            possibleSet = currentLane.sets[random.Next(currentLane.sets.Length)];
+        }
+        while (possibleSet.isPassed && currentLaneSetCount <= laneLength);
+        if (currentLaneSetCount > laneLength)
+        {
+            currentLane.ResetLane();
+            return GetRandomSet();
+        }
+        currentDialoguePosition = 0;
+        return possibleSet;
+    }
+
+    public Const.Milestones GetPotentialMilestone()
+    {
         if (characterInfo.currentAffectionLevel < characterInfo.milestone1)
         {
-            Debug.Log("I hate you! Get out of here!");
+            return Const.Milestones.Annoying;
         }
         else if (characterInfo.currentAffectionLevel >= characterInfo.milestone1 && characterInfo.currentAffectionLevel < characterInfo.milestone2)
         {
-            Debug.Log("You seem interesting. Let's talk.");
+            return Const.Milestones.Colleague;
         }
         else if (characterInfo.currentAffectionLevel >= characterInfo.milestone2 && characterInfo.currentAffectionLevel < characterInfo.milestone3)
         {
-            Debug.Log("I think you are pretty cute. Wanna hang out?");
+            return Const.Milestones.Friend;
         }
         else if (characterInfo.currentAffectionLevel >= characterInfo.milestone3 && characterInfo.currentAffectionLevel < characterInfo.milestone4)
         {
-            Debug.Log("You are the best thing since sliced bread. Wanna date?");
+            return Const.Milestones.SignificantOther;
         }
-        else if (characterInfo.currentAffectionLevel >= characterInfo.milestone4)
+        else
         {
-            Debug.Log("You are my soulmate!");
+            return Const.Milestones.Soulmate;
         }
     }
 
     public void ProcessOption(float optionImpact)
     {
-        characterInfo.currentAffectionLevel = Mathf.Clamp(characterInfo.currentAffectionLevel + optionImpact, 0f, 5f);
-        CheckAffectionMilestones();
-        CheckAffectionChange();
-        currentDialoguePosition = Mathf.Clamp(currentDialoguePosition + 1, 0, dialogues.Count - 1);
-        SetCurrentDialogue(currentDialoguePosition);
-        CheckForTriggers();
+        currentDialogue.scoreEarned = optionImpact;
+        if (currentDialoguePosition == currentSet.dialogues.Length - 1) // check if it is the end of the dialogue
+        {
+            if (!currentSet.CheckForPassing()) // if the dialogue was not passed reset it and pick a random new one
+            {
+                currentSet.ResetSet();
+                SetCurrentSet();
+            }
+            else // add the score to the affection meter and check to set a new milestone. Load the new Lane/Set/Dialogue
+            {
+                characterInfo.currentAffectionLevel += currentSet.scoreEarned;
+                CheckForMilestoneChange();
+                return;
+            }
+        }
+        else // load the next line
+        {
+            currentDialoguePosition++;
+        }
+        SetCurrentDialogue();
     }
 
-    public void LoadCharacter()
+    public bool CheckForMilestoneChange()
     {
-        LoadDialogueObjects();
-        SetCurrentDialogue(characterInfo.savedDialoguePosition);
+        Const.Milestones potentialNewMilestone = GetPotentialMilestone();
+        if (!potentialNewMilestone.Equals(characterInfo.currentMilestone))
+        {
+            characterInfo.currentMilestone = potentialNewMilestone;
+            currentLane.ResetLane();
+            LoadCharacterDialogue();
+            return true;
+        }
+        return false;
     }
 
-    public void CheckAffectionChange()
+    public void LoadCharacterDialogue()
     {
-        if (characterInfo.currentAffectionLevel < Const.HALF_HEART)
-        {
-            adjustAffectionLevel.Invoke(Const.ZERO_HEART);
-        }
-
-        CheckHeartValue(Const.HALF_HEART, Const.ONE_HEART);
-        CheckHeartValue(Const.ONE_HEART, Const.ONE_AND_HALF_HEART);
-        CheckHeartValue(Const.ONE_AND_HALF_HEART, Const.TWO_HEART);
-        CheckHeartValue(Const.TWO_HEART, Const.TWO_AND_HALF_HEART);
-        CheckHeartValue(Const.TWO_AND_HALF_HEART, Const.THREE_HEART);
-        CheckHeartValue(Const.THREE_HEART, Const.THREE_AND_HALF_HEART);
-        CheckHeartValue(Const.THREE_AND_HALF_HEART, Const.FOUR_HEART);
-        CheckHeartValue(Const.FOUR_HEART, Const.FOUR_AND_HALF_HEART);
-        CheckHeartValue(Const.FOUR_AND_HALF_HEART, Const.FIVE_HEART);
-
-        if (characterInfo.currentAffectionLevel >= Const.FIVE_HEART)
-        {
-            adjustAffectionLevel.Invoke(Const.FIVE_HEART);
-        }
-    }
-
-    public void CheckHeartValue(float initialHeart, float greaterHeart)
-    {
-        if (characterInfo.currentAffectionLevel >= initialHeart && characterInfo.currentAffectionLevel < greaterHeart)
-        {
-            adjustAffectionLevel.Invoke(initialHeart);
-        }
+        SetCurrentLane();
+        SetCurrentSet();
+        currentSet.ResetSet();
+        SetCurrentDialogue();
     }
 }

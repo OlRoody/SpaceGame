@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b630a776035b84ab8b5b0c526357a075, type: 3}
+  m_Name: SetA
+  m_EditorClassIdentifier: 
+  isPassed: 0
+  scoreEarned: 0
+  dialogues:
+  - {fileID: 11400000, guid: 5eee2310c25c64ed39d28c694ef13dd4, type: 2}
+  - {fileID: 11400000, guid: c30bafbeebbe14c8e9fe14cd6fe97c8e, type: 2}
+  - {fileID: 11400000, guid: f56bc2378cc2940c3b9dceb3dcf2b472, type: 2}
+  - {fileID: 11400000, guid: ffdfc2f2939ba418888ba09557e8cdfc, type: 2}
+  - {fileID: 11400000, guid: 70507af173e8f49919274039df8ea986, type: 2}
